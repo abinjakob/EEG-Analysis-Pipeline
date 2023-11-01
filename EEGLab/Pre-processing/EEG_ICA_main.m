@@ -1,6 +1,6 @@
 % EEG ICA ARTEFACT ATTENUATION MAIN SCRIPT 
 % ----------------------------------------
-% The code basically does the artefact attenuation using ICA. 
+% The code performs the artefact attenuation using ICA. 
 % 
 % It uses various custom functions to first convert the BrainVision data file 
 % to a EEGLab readable format and prepares the data to perform ICA and use 
