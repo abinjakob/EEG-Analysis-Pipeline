@@ -18,7 +18,6 @@
 % Author: Abin Jacob
 % Date  : 29/10/2023
 
-
 %% start fresh 
 clear; clc; close all;
 
@@ -34,13 +33,21 @@ PATHOUT = fullfile(MAINPATH,'rawdata', filesep);
 chan_file = fullfile(MAINPATH,'config', 'elec_64ch.elp');
 
 % add EEGLab to matlab path
-addpath('/Users/abinjacob/Documents/02. NeuroCFN/eeglab2023.1');
+addpath('L:\Cloud\SW\eeglab2023.1');
 % open EEGLab
 [ALLEEG EEG CURRENTSET ALLCOM] = eeglab;
 
 %% convert BrainVision files to EEGLab files
 cd(MAINPATH);
 convert_rawdata(DATAPATH, PATHOUT, chan_file);
+
+%% convert XDF files to EEGLab files 
+cd(MAINPATH);
+chan_file = fullfile(MAINPATH,'config', 'mobile24.elp');
+convert_rawxdf(DATAPATH, PATHOUT, chan_file) 
+
+% remove any faulty channel (optional)
+EEG = pop_select( EEG, 'rmchannel',{'Fp2'});
 
 %% ICA BASED ARTEFACT ATTENUATION 
 %% run ICA and apply weights to rawdata
@@ -52,16 +59,16 @@ PATHOUT = fullfile(MAINPATH, 'ica_corrected_data','ICA_weighted',filesep);
 % set parameters for ICA
 % high-pass filter 
 HP = 1;                   % cut-off
-HP_order = 500;           % filter order    
+HP_order = 776;           % filter order    
 % low-pass filter  
 LP = 40;                  % cut-off
-LP_order = 100;           % filter order 
+LP_order = 776;           % filter order 
 % downsampling freq. for ICA
 SRATE = 250;
 % artifact rejection threshold on SD
 PRUNE = 3;
 % perform PCA before ICA for dimension reduction [0 : 'No', 1: 'Yes']
-PCA = 1;
+PCA = 0;
 % PCA dimension 
 PCADIMS = 50;
 
@@ -70,7 +77,7 @@ cd(MAINPATH);
 run_ica(DATAPATH, PATHOUT, HP, HP_order, LP, LP_order, SRATE, PRUNE, PCA, PCADIMS)
 
 %% setting paths
-DATAPATH = fullfile(MAINPATH, 'ica_corrected_data','ICA_weighted',filesep);;
+DATAPATH = fullfile(MAINPATH, 'ica_corrected_data','ICA_weighted',filesep);
 PATHOUT = fullfile(MAINPATH, 'ica_corrected_data','ICA_badcomps',filesep);
 
 %% plotting ICA components

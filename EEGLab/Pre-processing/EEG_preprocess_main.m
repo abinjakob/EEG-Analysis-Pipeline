@@ -9,6 +9,8 @@
 % 4. Baseline Correction
 % 5. Reject artefactual epochs
 % 
+% the pre-processed data is then stored to the given folder
+% 
 % Author: Abin Jacob
 % Date  : 04/11/2023
 
@@ -25,7 +27,7 @@ DATAPATH = fullfile(MAINPATH, 'ica_corrected_data','ICA_cleaned',filesep);
 PATHOUT = fullfile(MAINPATH, 'pre_processed_data',filesep);
 
 % add EEGLab to matlab path
-addpath('/Users/abinjacob/Documents/02. NeuroCFN/eeglab2023.1');
+addpath('L:\Cloud\SW\eeglab2023.1');
 % open EEGLab
 [ALLEEG EEG CURRENTSET ALLCOM] = eeglab;
 
@@ -117,5 +119,9 @@ for file_numb = 1:length(file_list)
     EEG.setname = [subj{file_numb}, '_epoched'];
     EEG = pop_saveset(EEG, [EEG.setname, '.set'], PATHOUT);
 end
+
+
+
+
 
 
