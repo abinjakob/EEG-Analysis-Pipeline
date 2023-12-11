@@ -47,13 +47,11 @@ LP = 40;                        % cut-off
 LP_order = 776;                 % filter order 
 
 % epoching 
-% event_name = {'left_alt_116'  'left_alt_118'  'left_alt_12'  'left_alt_127'  'left_alt_170'  'left_alt_171'  'left_alt_183'  'left_alt_189'  'left_alt_190'  'left_alt_23'  'left_alt_280'  'left_alt_281'  'left_alt_289'  'left_alt_291'  'left_alt_294'  'left_alt_298'  'left_alt_332'  'left_alt_343'  'left_alt_385'  'left_alt_443'  'left_alt_444'  'left_alt_79'  'left_alt_8'  'left_alt_80'  'left_alt_83'  'left_asc_123'  'left_asc_143'  'left_asc_16'  'left_asc_166'  'left_asc_18'  'left_asc_222'  'left_asc_252'  'left_asc_271'  'left_asc_302'  'left_asc_303'  'left_asc_304'  'left_asc_340'  'left_asc_357'  'left_asc_358'  'left_asc_36'  'left_asc_393'  'left_asc_433'  'left_asc_434'  'left_asc_448'  'left_asc_463'  'left_asc_465'  'left_asc_68'  'left_dec_102'  'left_dec_107'  'left_dec_157'  'left_dec_159'  'left_dec_162'  'left_dec_199'  'left_dec_209'  'left_dec_258'  'left_dec_259'  'left_dec_260'  'left_dec_265'  'left_dec_269'  'left_dec_315'  'left_dec_320'  'left_dec_321'  'left_dec_324'  'left_dec_362'  'left_dec_366'  'left_dec_370'  'left_dec_371'  'left_dec_378'  'left_dec_419'  'left_dec_46'  'left_dec_471'  'left_dec_472'  'left_dec_474'  'left_dec_51'  'left_dec_93'  'right_alt_167'  'right_alt_168'  'right_alt_172'  'right_alt_178'  'right_alt_193'  'right_alt_202'  'right_alt_204'  'right_alt_206'  'right_alt_207'  'right_alt_208'  'right_alt_215'  'right_alt_219'  'right_alt_234'  'right_alt_237'  'right_alt_240'  'right_alt_244'  'right_alt_247'  'right_alt_266'  'right_alt_268'  'right_alt_57'  'right_alt_60'  'right_alt_62'  'right_alt_65'  'right_alt_72'  'right_alt_73'  'right_alt_74'  'right_alt_90'  'right_alt_98'  'right_alt_99'  'right_asc_109'  'right_asc_121'  'right_asc_125'  'right_asc_14'  'right_asc_140'  'right_asc_151'  'right_asc_153'  'right_asc_156'  'right_asc_17'  'right_asc_275'  'right_asc_283'  'right_asc_305'  'right_asc_309'  'right_asc_311'  'right_asc_313'  'right_asc_318'  'right_asc_33'  'right_asc_4'  'right_asc_47'  'right_asc_49'  'right_asc_5'  'right_dec_326'  'right_dec_327'  'right_dec_333'  'right_dec_336'  'right_dec_337'  'right_dec_354'  'right_dec_355'  'right_dec_359'  'right_dec_367'  'right_dec_372'  'right_dec_374'  'right_dec_390'  'right_dec_395'  'right_dec_398'  'right_dec_399'  'right_dec_406'  'right_dec_415'  'right_dec_426'  'right_dec_430'  'right_dec_442'  'right_dec_449'  'right_dec_455'  'right_dec_473'  'right_dec_476'  'right_dec_481'};
-
 % extracting correct events
 [trialCount, corrEvent_left, corrEvent_right] = SATcorrect_trials(EEG);
 event_name = [corrEvent_left, corrEvent_right];
-epoch_start = -0.2;             % epoch start  
-epoch_end = 3;                  % epoch end 
+epoch_start = -0.25;             % epoch start  
+epoch_end = 3.25;                  % epoch end 
 
 % baseline correction
 fs = EEG.srate;                 % sampling rate of the EEG recording 
@@ -125,7 +123,7 @@ end
 % baseline period 
 baseline_period = size(baseline(1):baseline(2)-1,2);
 % stimulus period 
-stim_duration = epoch_end;
+stim_duration = 3;
 % number of left and right tones
 left_toneCount = 4;
 right_toneCount = 5;
@@ -178,9 +176,6 @@ ylabel('amplitude (mV)');
 title('ERP for central electrodes for Attend Left Condition');
 legend('Left Tones', 'Right Tones');
 
-% % TRASH
-% figure; plot(EEG_left.times,mean(mean(EEG_left.data([2 5 6 7 8 9 ],:,:),3),1))
-% xlim([0 3000]); ylim([-3 1.5]);
 % 
 % figure;
 % % plotting the left tones
@@ -234,4 +229,39 @@ legend('Left Tones', 'Right Tones');
 % figure; plot(EEG_right.times,mean(mean(EEG_right.data([2 5 6 7 8 9 ],:,:),3),1))
 % xlim([0 3000]); ylim([-3 1.5]);
 
+%% plot central electrodes 
+figure; plot(EEG_left.times,mean(mean(EEG_left.data([2 5 6 7 8 9 ],:,:),3),1))
+hold on
+plot(EEG_right.times,mean(mean(EEG_right.data([2 5 6 7 8 9 ],:,:),3),1))
+plot(0:3000/4:3000,[0 0 0 0 0],'db')
+plot(0:3000/5:3000,[0 0 0 0 0 0],'dr')
+xlim([-250 3250]); ylim([-3 1.5]);
+xlabel('time (ms)');
+ylabel('amplitude (mV)');
+title('ERP for central electrodes for Attend Left and Attend Right Condition');
+legend('Attend Left', 'Attend Right', 'Left Tone Onsets', 'Right Tone Onsets');
+hold off
 
+%% plot all electrodes for attend left
+
+figure; plot(EEG_left.times,mean(EEG_left.data(:,:,:),3))
+hold on
+plot(0:3000/4:3000,[-6 -6 -6 -6 -6],'db')
+plot(0:3000/5:3000,[-6 -6 -6 -6 -6 -6],'dr')
+xlim([-250 3250]); ylim([-6 8]);
+xlabel('time (ms)');
+ylabel('amplitude (mV)');
+title('ERP of all electrodes for Attend Left Condition');
+hold off
+
+%% plot all electrodes for attend right
+
+figure; plot(EEG_left.times,mean(EEG_right.data(:,:,:),3))
+hold on
+plot(0:3000/4:3000,[-6 -6 -6 -6 -6],'db')
+plot(0:3000/5:3000,[-6 -6 -6 -6 -6 -6],'dr')
+xlim([-250 3250]); ylim([-6 8]);
+xlabel('time (ms)');
+ylabel('amplitude (mV)');
+title('ERP of all electrodes for Attend Right Condition');
+hold off
