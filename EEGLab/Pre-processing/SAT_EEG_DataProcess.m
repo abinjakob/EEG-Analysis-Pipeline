@@ -160,34 +160,6 @@ for iChannel = 1:size(EEG_left.data,1)
     end 
 end 
 
-% plotting the ERP
-figure;
-% plotting the left tones
-plot(EEG_left.times(toneStart:(toneStart+left_toneDuration)-1),mean(mean(attendLeft_lefttone([2 5 6 7 8 9 ],:,:),3),1))
-hold on
-% plotting the right tones
-plot(EEG_left.times(toneStart:(toneStart+right_toneDuration)-1),mean(mean(attendLeft_righttone([2 5 6 7 8 9 ],:,:),3),1))
-hold off
-% setting lims 
-xlim([0 600]);
-ylim([-1.6 0.2]);
-xlabel('time (ms)');
-ylabel('amplitude (mV)');
-title('ERP for central electrodes for Attend Left Condition');
-legend('Left Tones', 'Right Tones');
-
-% 
-% figure;
-% % plotting the left tones
-% plot(EEG_left.times(toneStart:(toneStart+left_toneDuration)-1),mean(attendLeft_lefttone([2 5 6 7 8 9 ],:,3),1))
-% hold on
-% % plotting the right tones
-% plot(EEG_left.times(toneStart:(toneStart+right_toneDuration)-1),mean(attendLeft_righttone([2 5 6 7 8 9 ],:,3),1))
-% hold off
-% % setting lims 
-% xlim([0 600]);
-% % ylim([-1.4 0.2]);
-
 %% for attend right condition
 
 % calculate ERP for left tones 
@@ -210,32 +182,53 @@ for iChannel = 1:size(EEG_right.data,1)
     end 
 end 
 
+%% plotting Left and Right conditions 
+
+% channels to plot 
+% chan2plot = [2 5 6 7 8 9 ];                                                       % 24 electrode setup
+chan2plot = [58 57 56 55 6 40 5 39 4 38 3 37 2 42 41 7 1 31 32 33 34 35 36];        % 96 electrode setup
+
 % plotting the ERP
 figure;
 % plotting the left tones
-plot(EEG_right.times(toneStart:(toneStart+left_toneDuration)-1),mean(mean(attendRight_lefttone([2 5 6 7 8 9 ],:,:),3),1))
+plot(EEG_left.times(toneStart:(toneStart+left_toneDuration)-1),mean(mean(attendLeft_lefttone(chan2plot,:,:),3),1))
 hold on
 % plotting the right tones
-plot(EEG_right.times(toneStart:(toneStart+right_toneDuration)-1),mean(mean(attendRight_righttone([2 5 6 7 8 9 ],:,:),3),1))
+plot(EEG_left.times(toneStart:(toneStart+right_toneDuration)-1),mean(mean(attendLeft_righttone(chan2plot,:,:),3),1))
+hold off
+% setting lims 
+xlim([0 600]);
+% ylim([-1.6 0.2]);
+xlabel('time (ms)');
+ylabel('amplitude (mV)');
+title('ERP for central electrodes for Attend Left Condition');
+legend('Left Tones', 'Right Tones');
+
+
+% plotting the ERP
+figure;
+% plotting the left tones
+plot(EEG_right.times(toneStart:(toneStart+left_toneDuration)-1),mean(mean(attendRight_lefttone(chan2plot,:,:),3),1))
+hold on
+% plotting the right tones
+plot(EEG_right.times(toneStart:(toneStart+right_toneDuration)-1),mean(mean(attendRight_righttone(chan2plot,:,:),3),1))
 hold off
 % setting xlims 
 xlim([0 600]);
-ylim([-1.6 0.2]);
+% ylim([-1.6 0.2]);
 xlabel('time (ms)');
 ylabel('amplitude (mV)');
 title('ERP for central electrodes for Attend Right Condition');
 legend('Left Tones', 'Right Tones');
 
-% figure; plot(EEG_right.times,mean(mean(EEG_right.data([2 5 6 7 8 9 ],:,:),3),1))
-% xlim([0 3000]); ylim([-3 1.5]);
-
 %% plot central electrodes 
-figure; plot(EEG_left.times,mean(mean(EEG_left.data([2 5 6 7 8 9 ],:,:),3),1))
+figure; plot(EEG_left.times,mean(mean(EEG_left.data(chan2plot,:,:),3),1))
 hold on
-plot(EEG_right.times,mean(mean(EEG_right.data([2 5 6 7 8 9 ],:,:),3),1))
+plot(EEG_right.times,mean(mean(EEG_right.data(chan2plot,:,:),3),1))
 plot(0:3000/4:3000,[0 0 0 0 0],'db')
 plot(0:3000/5:3000,[0 0 0 0 0 0],'dr')
-xlim([-250 3250]); ylim([-3 1.5]);
+xlim([-250 3250]); 
+% ylim([-3 1.5]); 2
 xlabel('time (ms)');
 ylabel('amplitude (mV)');
 title('ERP for central electrodes for Attend Left and Attend Right Condition');
@@ -243,25 +236,59 @@ legend('Attend Left', 'Attend Right', 'Left Tone Onsets', 'Right Tone Onsets');
 hold off
 
 %% plot all electrodes for attend left
-
 figure; plot(EEG_left.times,mean(EEG_left.data(:,:,:),3))
 hold on
-plot(0:3000/4:3000,[-6 -6 -6 -6 -6],'db')
-plot(0:3000/5:3000,[-6 -6 -6 -6 -6 -6],'dr')
-xlim([-250 3250]); ylim([-6 8]);
+plot(0:3000/4:3000,[-60 -60 -60 -60 -60],'db')
+plot(0:3000/5:3000,[-60 -60 -60 -60 -60 -60],'dr')
+xlim([-250 3250]); 
+ylim([-60 60]);
 xlabel('time (ms)');
 ylabel('amplitude (mV)');
 title('ERP of all electrodes for Attend Left Condition');
 hold off
 
 %% plot all electrodes for attend right
-
 figure; plot(EEG_left.times,mean(EEG_right.data(:,:,:),3))
 hold on
-plot(0:3000/4:3000,[-6 -6 -6 -6 -6],'db')
-plot(0:3000/5:3000,[-6 -6 -6 -6 -6 -6],'dr')
-xlim([-250 3250]); ylim([-6 8]);
+plot(0:3000/4:3000,[-60 -60 -60 -60 -60],'db')
+plot(0:3000/5:3000,[-60 -60 -60 -60 -60 -60],'dr')
+xlim([-250 3250]); 
+ylim([-60 60]);
 xlabel('time (ms)');
 ylabel('amplitude (mV)');
 title('ERP of all electrodes for Attend Right Condition');
 hold off
+
+%% TRASH
+
+for segment = 1:3  
+    % plotting the ERP
+    figure;
+    % plotting the left tones
+    plot(EEG_right.times(toneStart:(toneStart+left_toneDuration)-1),mean(attendRight_lefttone(chan2plot,:,segment)))
+    hold on
+    % plotting the right tones
+    plot(EEG_right.times(toneStart:(toneStart+right_toneDuration)-1),mean(attendRight_righttone(chan2plot,:,segment)))
+    title(['Segment' num2str(segment)]);
+    % setting lims 
+    xlim([0 600]);
+    % ylim([-1.6 0.2]);
+    legend('Left Tones', 'Right Tones');
+    hold off
+end
+
+%% topoplots
+
+figure;
+pop_topoplot(EEG_left, 1, 300, 'Left Attended', [1 1],0, 'electrodes', 'on', 'chaninfo', EEG_left.chaninfo);
+
+%% plot topoplots
+pop_topoplot(EEG_left, 1, [100 150 200 240 280], 'Left Attended', [1 5] ,0, 'electrodes', 'on', 'chaninfo', EEG_left.chaninfo);
+pop_topoplot(EEG_right, 1, [100 150 200 240 280], 'Right Attended', [1 5] ,0, 'electrodes', 'on', 'chaninfo', EEG_left.chaninfo);
+
+%% topoplot at tone onsets for left and right attended
+pop_topoplot(EEG_left, 1, [180 200 235 280 908 950 985 1030 1458 1700 1735 1780 2200 2250 2285 2300], 'Left Attended', [4 4] ,0, 'electrodes', 'on', 'chaninfo', EEG_left.chaninfo);
+pop_topoplot(EEG_right, 1, [180 200 240 280 780 800 840 880 1350 1400 1435 1480 1770 2000 2035 2080], 'Right Attended', [4 4] ,0, 'electrodes', 'on', 'chaninfo', EEG_left.chaninfo);
+
+
+

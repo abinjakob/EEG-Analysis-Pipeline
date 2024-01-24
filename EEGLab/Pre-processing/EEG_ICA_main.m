@@ -59,10 +59,10 @@ PATHOUT = fullfile(MAINPATH, 'ica_corrected_data','ICA_weighted',filesep);
 % set parameters for ICA
 % high-pass filter 
 HP = 1;                   % cut-off
-HP_order = 776;           % filter order    
+HP_order = 500;           % filter order    
 % low-pass filter  
 LP = 40;                  % cut-off
-LP_order = 776;           % filter order 
+LP_order = 100;           % filter order 
 % downsampling freq. for ICA
 SRATE = 250;
 % artifact rejection threshold on SD
@@ -77,7 +77,7 @@ cd(MAINPATH);
 run_ica(DATAPATH, PATHOUT, HP, HP_order, LP, LP_order, SRATE, PRUNE, PCA, PCADIMS)
 
 %% setting paths
-DATAPATH = fullfile(MAINPATH, 'ica_corrected_data','ICA_weighted',filesep);
+DATAPATH = fullfile(MAINPATH, 'ica_corrected_data','ICA_weighted',filesep);;
 PATHOUT = fullfile(MAINPATH, 'ica_corrected_data','ICA_badcomps',filesep);
 
 %% plotting ICA components

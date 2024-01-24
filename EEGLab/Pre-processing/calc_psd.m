@@ -1,5 +1,5 @@
 function [ChanPSD, f] = calc_psd(EEG, window_length)
-% function function [ChanPSD, f] = calc_psd(EEG, window_length)
+% function function [power, f] = calc_psd(EEG, window_length)
 %
 % This function is used to calculate PSD using welch method 
 % The function loads '.set' epoched EEG file for the respective SSVEP event 
@@ -14,7 +14,7 @@ function [ChanPSD, f] = calc_psd(EEG, window_length)
 %   f (1D array)       : frequency vector
 %
 % Example function call:
-% [ChanPSD, f] = calc_psd(EEG, window_length)
+% erd = calc_erd(EEG, binsize, base_start, base_end)
 
 % overlap of the window
 overlap = window_length / 2;

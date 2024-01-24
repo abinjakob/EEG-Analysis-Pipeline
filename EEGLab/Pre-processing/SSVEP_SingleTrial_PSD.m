@@ -19,23 +19,25 @@ for iChan = 1:size(EEG_temp.data,1)
 end 
 
 % plotting single trial power
-chan = 23;
-figure(3), clf
-% loop over trials
-h = plot(f, squeeze(pxx_all(:,chan,:)));
-hold on
-plot(f, mean(pxx_all(:,chan,:),3),'k', 'linew', 1.2)
-set(h, 'Color', [200,200,200]/255)
-set(gca, 'xlim', [5 50], 'ylim', [0 10]);
-xlabel('frequency [Hz]')
-ylabel('power [a.u.]')
-title(['PSD of channel ' EEG.chanlocs(chan).labels ' in Attend ' stims{event_sel} ' condition'])
+chan = [5 39 49 50];
+% figure(3), clf
+% % loop over trials
+% h = plot(f, squeeze(pxx_all(:,chan,:)));
+% hold on
+% plot(f, mean(pxx_all(:,chan,:),3),'k', 'linew', 1.2)
+% set(h, 'Color', [200,200,200]/255)
+% set(gca, 'xlim', [5 50], 'ylim', [0 10]);
+% xlabel('frequency [Hz]')
+% ylabel('power [a.u.]')
+% title(['PSD of channel ' EEG.chanlocs(chan).labels ' in Attend ' stims{event_sel} ' condition'])
 
 % plotting 
 figure(4), clf
-imagesc(f, [], squeeze(pxx_all(:,chan,:))')
-set(gca, 'xlim', [5 50], 'clim', [0 2])
+% imagesc(f, [], squeeze(pxx_all(:,chan,:))')
+imagesc(f, [], squeeze(mean(pxx_all(:,chan,:),2))')
+set(gca, 'xlim', [5 45], 'clim', [0 20])
 xlabel('frequency [Hz]')
 ylabel('trials')
-title(['PSD of channel ' EEG.chanlocs(chan).labels ' in Attend ' stims{event_sel} ' condition'])
+% title(['PSD of channel ' EEG.chanlocs(chan).labels ' in Attend ' stims{event_sel} ' condition'])
+title(['PSD of Occipital Channels in Attend ' stims{event_sel} ' condition'])
 colorbar

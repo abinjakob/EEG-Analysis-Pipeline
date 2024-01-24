@@ -10,7 +10,7 @@ function [trialCount, corrEvent_left, corrEvent_right] = SATcorrect_trials(EEG)
 % Ouput:
 %   trialCount      (int)   : total count of the trials
 %   corrEvent_left  (cell)  : Event names of all the correct left trials
-%   corrEvent_rigth (cell)  : Event names of all the correct right trials
+%   corrEvent_right (cell)  : Event names of all the correct right trials
 %
 % Example function call:
 % [trialCount, corrEvent_left, corrEvent_right] = SATcorrect_trials(EEG)
